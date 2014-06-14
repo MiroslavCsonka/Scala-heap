@@ -5,8 +5,11 @@ import scala.collection.mutable.ListBuffer
 
 class Heap[T](compareFunction: (T, T) => Int) {
 
+    type node = (Int, T)
+
     private val HIGHER = 1
     private val LOWER = -1
+    private val heapRepresentation = new ListBuffer[T]()
 
     def add(item: T): Heap[T] = {
         heapRepresentation.append(item)
@@ -29,12 +32,9 @@ class Heap[T](compareFunction: (T, T) => Int) {
             Some(firstValue)
     }
 
-    private val heapRepresentation = new ListBuffer[T]()
-
     private def lastIndex = heapRepresentation.size - 1
 
     private def valueOf(index: Int): T = heapRepresentation(index)
-
 
     private def swap(index1: Int, index2: Int) {
         val temp = valueOf(index1)
@@ -68,7 +68,7 @@ class Heap[T](compareFunction: (T, T) => Int) {
         }
     }
 
-    private def getLowerChild(index: Int): Option[(Int, T)] = {
+    private def getLowerChild(index: Int): Option[node] = {
         def getChildrenIndices(parentIndex: Int): (Int, Int) = (2 * parentIndex + 1, 2 * parentIndex + 2)
 
         val (leftChildIndex, rightChildIndex) = getChildrenIndices(index)
